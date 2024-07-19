@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, startTransition } from "react";
 import { Avatar } from "./Avatar";
 
 type Task = {
@@ -34,26 +34,43 @@ const generateDummyTasks = (): Task[] => {
 const tasks = generateDummyTasks();
 
 const filteringAssignee = (assignee: string) => {
-  if (assignee === '') return tasks;
-  return tasks.filter((task)=> task.assignee === assignee);
-}
+  if (assignee === "") return tasks;
+  return tasks.filter((task) => task.assignee === assignee);
+};
 
 export const Transition = () => {
-  const [selectedAssignee, setSelectedAssignee] = useState<string>('')
-  const [taskList, setTaskList] = useState<Task[]>(tasks)
+  const [selectedAssignee, setSelectedAssignee] = useState<string>("");
+  const [taskList, setTaskList] = useState<Task[]>(tasks);
 
   const onClickAssignee = (assignee: string) => {
-    setSelectedAssignee(assignee)
-    setTaskList(filteringAssignee(assignee))
-  }
+    setSelectedAssignee(assignee);
+    startTransition(() => {
+      setTaskList(filteringAssignee(assignee)); // 緊急性の高くない処理を指定する
+    });
+  };
 
   return (
     <div>
       <p>Transition</p>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <Avatar isSelected={selectedAssignee === member.a} onClick={onClickAssignee}>{member.a}</Avatar>
-        <Avatar isSelected={selectedAssignee === member.b} onClick={onClickAssignee}>{member.b}</Avatar>
-        <Avatar isSelected={selectedAssignee === member.c} onClick={onClickAssignee}>{member.c}</Avatar>
+        <Avatar
+          isSelected={selectedAssignee === member.a}
+          onClick={onClickAssignee}
+        >
+          {member.a}
+        </Avatar>
+        <Avatar
+          isSelected={selectedAssignee === member.b}
+          onClick={onClickAssignee}
+        >
+          {member.b}
+        </Avatar>
+        <Avatar
+          isSelected={selectedAssignee === member.c}
+          onClick={onClickAssignee}
+        >
+          {member.c}
+        </Avatar>
       </div>
       <br />
       <button onClick={() => onClickAssignee("")}>リセット</button>
