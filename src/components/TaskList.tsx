@@ -1,13 +1,15 @@
+import { memo, useDeferredValue } from "react";
 import type { Task } from "./Transition";
 
 type Props = {
   taskList: Task[];
 };
 
-export const TaskList = ({ taskList }: Props) => {
+export const TaskList = memo(({ taskList }: Props) => {
+  const deferredTaskList = useDeferredValue(taskList); // 緊急性の高い処理を指定する
   return (
     <>
-      {taskList.map((task) => (
+      {deferredTaskList.map((task) => (
         <div
           key={task.id}
           style={{ width: "300px", margin: "auto", background: "lavender" }}
@@ -18,4 +20,4 @@ export const TaskList = ({ taskList }: Props) => {
       ))}
     </>
   );
-};
+});
