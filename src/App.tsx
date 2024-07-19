@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { AutoBatchEventHandler } from './components/AutoBatchEventHandler';
 import { AutoBatchOther } from './components/AutoBatchOther';
+import { Transition } from './components/Transition';
 
 function App() {
 
@@ -9,6 +10,8 @@ function App() {
     <div className="App">
       <AutoBatchEventHandler />
       <AutoBatchOther />
+      <hr />
+      <Transition />
     </div>
   );
 }
